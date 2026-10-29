@@ -1,0 +1,51 @@
+:root {
+  --font-display: Inter, 'Helvetica Neue', Arial, 'Microsoft YaHei UI', sans-serif;
+  --font-text: var(--font-display);
+  --font-mono: 'Cascadia Mono', Consolas, monospace;
+  --font-size-xs: 0.6875rem;
+  --font-size-sm: 0.75rem;
+  --font-size-md: 0.8125rem;
+  --font-size-lg: 0.9375rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.75rem;
+  --font-size-display: 3rem;
+  --space-1: 0.125rem;
+  --space-2: 0.25rem;
+  --space-3: 0.5rem;
+  --space-4: 0.75rem;
+  --space-5: 1rem;
+  --space-6: 1.5rem;
+  --space-7: 2rem;
+  --space-8: 3rem;
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --stroke-hairline: 1px;
+  --stroke-focus: 2px;
+  --control-height: 2rem;
+  --grid-gap: 0.75rem;
+  --sidebar-width: 12.5rem;
+  --detail-width: 22rem;
+  --header-height: 4rem;
+  --motion-fast: 90ms;
+  --motion-base: 160ms;
+  --hold-confirm-duration: 1000ms;
+  --shadow-popover: 0 1rem 4rem color-mix(in srgb, var(--color-text-primary) 16%, transparent);
+  --z-modal: 30;
+  --z-toast: 40;
+}
+[data-density='comfortable'] {
+  --control-height: 2.5rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-fast: 0.01ms;
+    --motion-base: 0.01ms;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

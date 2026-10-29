@@ -1,0 +1,44 @@
+{
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "vision_tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "maxItems": 200
+        },
+        "vision_description": {
+          "type": "string",
+          "maxLength": 8192
+        }
+      },
+      "required": [
+        "vision_tags",
+        "vision_description"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "status": {
+          "const": "refused_nsfw"
+        },
+        "reason": {
+          "type": "string",
+          "maxLength": 2048
+        }
+      },
+      "required": [
+        "status",
+        "reason"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

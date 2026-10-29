@@ -3,6 +3,8 @@
 > 运行时 Skill = 产品调用 LLM 时注入的提示词模板，放在产品层 `skills/<name>/SKILL.md`，随产品分发。
 > 开发 Skill = 给 opencode 开发 agent 用的知识，放在 `.opencode/skills/`，由我从现有文档整理，不需要你准备。
 
+> 0.14.0 实现说明：R0、R2、R5 已按本文件合同形成固定摘要的 v1 模板并接入独立视觉任务。R2 的 TagCleaner 原文未提供，当前为依据本文合同新写的初版，不宣称完成原文迁移；源文件见 `skills/vision-captioner/SKILL.md` 和 `skills/rating-classifier/SKILL.md`，打包副本逐字校验。未采用 C10 对未验证 NSFW fallback 的放宽。真实模型行为仍待验收，详见 `21-F15-视觉描述与评级路由验收.md`。
+
 ## 1. 通用约定（所有运行时 Skill）
 
 每个 Skill 需要包含：
@@ -25,7 +27,7 @@
 | R1 | `prompt-composer` | 新写 | 提示词生产：特征组合 → 可直接提交 NAI 的内容段提示词（可选自然语言润色） | MVP |
 | R2 | `vision-captioner` | 迁移 TagCleaner 阶段一 | 视觉反推：输出辅助 tags + 一段自然语言描述 | MVP |
 | R3 | `dataset-cleaner` | 迁移 TagCleaner 阶段三 | 数据清洗：WD14 为主证据，合并视觉候选，输出最终 tags + 自然语言 | MVP |
-| R4 | `prompt-pyramid` | 迁移 TagCleaner 现有 | 最终 tags 归一与排序 | MVP |
+| R4 | `prompt-pyramid` | 本地纯排序适配（v0.29.0） | 最终内容 tags 稳定排序；规范化/去重仍由 F01 负责 | MVP |
 | R5 | `rating-classifier` | 新写 | 分级模型：判定内容 rating | MVP |
 | R6 | `character-tag-auditor` | 迁移 TagCleaner 现有 | A-pose 角色审计 | 预留（角色线） |
 
@@ -59,7 +61,10 @@
 - 输出：`{ "final_tags": [...], "natural_language": "...", "removed": [...], "added": [...] }`
 
 ### R4 prompt-pyramid
-- 现有内容直接迁移；需要确认是否与 docs/03 的 caption 顺序一致（触发词 → 主体 → 动作表情 → 服装 → 构图 → 场景 → 光照）
+- v0.29.0 按 F09–F10 §8 / C13 实现本地纯排序适配，顺序为触发词 → 主体 → 动作表情 → 服装 → 构图 → 场景 → 光照；未分类稳定放末尾。
+- 不直接执行上游清洗提示词，不迁移删画师、解冲突、增删标签或服装先于动作的行为。R1 的生产/精修规则保持，R4 仅在明确选择的导出方案生效，不调用模型或注册 jobs。
+- 规则契约与 142 个精确分类条目在 `src/stylelora/caption/data/`，由 Python 适配器执行；不是 Codex 技能或发送给 LLM 的提示词。词库别名只用于查类别，不改写输出；版本、规则/契约摘要和词库摘要进入导出计划。
+- 能力范围、扩展分类和验收见 [R4 本地排序验收](36-F09-F10-R4-本地排序验收.md)。
 
 ### R5 rating-classifier
 - 输入：`{{tags}}`、`{{natural_language}}`，可选图片（视觉分级时）

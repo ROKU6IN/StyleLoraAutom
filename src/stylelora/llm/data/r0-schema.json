@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "properties": {
+    "status": {
+      "const": "refused_nsfw"
+    },
+    "reason": {
+      "type": "string",
+      "maxLength": 2048
+    }
+  },
+  "required": [
+    "status",
+    "reason"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,246 @@
+{
+  "backend": "nai_direct",
+  "contract_digest": "2386283a3cd22ae98cdec4deb5c866dd35926ee0e297f1dafa77199a7f7efbbe",
+  "config_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "schema_version",
+      "backend",
+      "default_aspect",
+      "sizes",
+      "profile"
+    ],
+    "properties": {
+      "schema_version": {
+        "const": 1
+      },
+      "backend": {
+        "const": "nai_direct"
+      },
+      "default_aspect": {
+        "enum": [
+          "portrait",
+          "landscape",
+          "square"
+        ]
+      },
+      "sizes": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "landscape",
+          "portrait",
+          "square"
+        ],
+        "properties": {
+          "landscape": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "width",
+              "height"
+            ],
+            "properties": {
+              "width": {
+                "type": "integer",
+                "minimum": 64,
+                "maximum": 1536,
+                "multipleOf": 64
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 64,
+                "maximum": 1536,
+                "multipleOf": 64
+              }
+            }
+          },
+          "portrait": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "width",
+              "height"
+            ],
+            "properties": {
+              "width": {
+                "type": "integer",
+                "minimum": 64,
+                "maximum": 1536,
+                "multipleOf": 64
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 64,
+                "maximum": 1536,
+                "multipleOf": 64
+              }
+            }
+          },
+          "square": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "width",
+              "height"
+            ],
+            "properties": {
+              "width": {
+                "type": "integer",
+                "minimum": 64,
+                "maximum": 1536,
+                "multipleOf": 64
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 64,
+                "maximum": 1536,
+                "multipleOf": 64
+              }
+            }
+          }
+        }
+      },
+      "profile": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "model",
+          "effort",
+          "sampler",
+          "steps",
+          "scale",
+          "cfg_rescale",
+          "noise_schedule",
+          "uc_preset",
+          "quality_toggle",
+          "smea",
+          "smea_dyn",
+          "variety_plus",
+          "decrisp"
+        ],
+        "properties": {
+          "model": {
+            "enum": [
+              "nai-diffusion-4-5-full",
+              "nai-diffusion-5-full"
+            ]
+          },
+          "effort": {
+            "const": "high"
+          },
+          "sampler": {
+            "const": "k_euler_ancestral"
+          },
+          "steps": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50
+          },
+          "scale": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 10
+          },
+          "cfg_rescale": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "noise_schedule": {
+            "const": "karras"
+          },
+          "uc_preset": {
+            "const": null
+          },
+          "quality_toggle": {
+            "const": false
+          },
+          "smea": {
+            "const": false
+          },
+          "smea_dyn": {
+            "const": false
+          },
+          "variety_plus": {
+            "const": false
+          },
+          "decrisp": {
+            "const": false
+          }
+        }
+      }
+    }
+  },
+  "negative_locked_by_effort": [],
+  "form": {
+    "version": 1,
+    "default_config": {
+      "schema_version": 1,
+      "backend": "nai_direct",
+      "default_aspect": "portrait",
+      "sizes": {
+        "landscape": {
+          "width": 768,
+          "height": 512
+        },
+        "portrait": {
+          "width": 512,
+          "height": 768
+        },
+        "square": {
+          "width": 640,
+          "height": 640
+        }
+      },
+      "profile": {
+        "model": "nai-diffusion-5-full",
+        "effort": "high",
+        "sampler": "k_euler_ancestral",
+        "steps": 23,
+        "scale": 5.0,
+        "cfg_rescale": 0.0,
+        "noise_schedule": "karras",
+        "uc_preset": null,
+        "quality_toggle": false,
+        "smea": false,
+        "smea_dyn": false,
+        "variety_plus": false,
+        "decrisp": false
+      }
+    },
+    "labels": {
+      "config": "生成参数",
+      "config.schema_version": "配置版本",
+      "config.backend": "生成后端",
+      "config.default_aspect": "默认图幅",
+      "config.sizes": "实际像素尺寸",
+      "config.profile": "模型参数",
+      "config.profile.model": "模型",
+      "config.profile.effort": "生成档位",
+      "config.profile.sampler": "采样器",
+      "config.profile.steps": "步数",
+      "config.profile.scale": "提示词引导强度",
+      "config.profile.cfg_rescale": "CFG 重缩放",
+      "config.profile.noise_schedule": "噪声调度",
+      "config.profile.uc_preset": "负面词预设",
+      "config.profile.quality_toggle": "质量词开关",
+      "config.profile.smea": "SMEA",
+      "config.profile.smea_dyn": "动态 SMEA",
+      "config.profile.variety_plus": "Variety+",
+      "config.profile.decrisp": "Decrisp",
+      "config.sizes.landscape": "横图",
+      "config.sizes.landscape.width": "横图宽度",
+      "config.sizes.landscape.height": "横图高度",
+      "config.sizes.portrait": "竖图",
+      "config.sizes.portrait.width": "竖图宽度",
+      "config.sizes.portrait.height": "竖图高度",
+      "config.sizes.square": "方图",
+      "config.sizes.square.width": "方图宽度",
+      "config.sizes.square.height": "方图高度"
+    },
+    "fixed_hint": "当前接口固定此值；其它取值尚未开放。",
+    "hint": "单张文生图；字符提示词、参考图与批量生成尚未开放。尺寸须与图幅方向一致。"
+  }
+}

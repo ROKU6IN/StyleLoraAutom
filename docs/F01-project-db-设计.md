@@ -1,6 +1,14 @@
 # F01 project.db 模块详细设计
 
+> 0.35.0 实现补充：`images/.operations/<item>/<attempt>.json` 是调度辅助证据，保存 prepare 起的未知操作屏障关联及结清状态，不增加 runs/jobs 或数据库表列。图片归属 SHA-256 在写完成收据前校验，生成失败仍只能人工授权新 attempt。详见 [调度验收](42-F02-F05-串行调度与未知结果对账验收.md)。
+
+> 0.34.0 C06 实现补充：费用服务在 mark_sent 前持久保存项目 `images/.costs/<item>/<attempt>.json`；未知提交不授权远端重发，缺失历史凭据不能视作零费用。凭据属于辅助恢复/估算证据，不改变 DDL、attempt 分配或原有图片收据协议。confirm_cost_and_resume 新增可选 validate 回调，在同一写事务内执行来源版本前置校验；原接口调用保持兼容。详见 [费用验收](41-F04-F21-费用策略与持久估算验收.md)。
+
+> 0.32.0 C07 实现补充：ImageArtifact 增加可选 registration_check（schema_version/review_status/summary），完整收据冻结该值；prepare_artifact 可核对 F05 解码时的 SHA-256/大小，并先保存 `images/.checks/<item>/<attempt>.json` 检查信封。complete_item 同事务设置初始 unreviewed/reject，重放不覆盖后续人工审核。无 original 时摘要也存在，恢复缺失/损坏检查证据的产物保持未知。旧无检查 v1 收据的字段与摘要不变，无数据库迁移。详见 [F05 验收](39-F05-产物检查与原子入库验收.md)。
+
 版本：设计稿 v0.2；日期：2026-10-12；状态：已并入 C01—C05 / Q01—Q13 裁决，仅剩明确列出的外部契约待实测。
+
+> 本地实现更新（2026-10-25）：项目骨架和 F01 已落地到 src/stylelora/project_db，验收测试已执行通过。本文保留设计规格与历史说明；当前交付范围和验证边界见 [08-F01-本地实现与验收](08-F01-本地实现与验收.md)。
 
 ## 1. 范围、权威来源与交付边界
 
@@ -400,6 +408,8 @@ cost_policy 可随时修改，写库后下一张取新值；已 sent 不撤回�
 
 failed/canceled/done 不改回 pending；手动重做创建新 job。多选在一个事务建多个 job，共用调用方稳定 batch_id，按 WD 后 LLM 顺序分配 job_id，调度串行。running→paused 后收到当前进程在途结果可完成本图；canceled 后迟到结果默认丢弃、不新增标注。结果提交时检查 job 状态和运行内存代次；旧进程连接不可跨恢复复用。
 
+0.15.0 组合调度细化：`freeze_job(..., start=False)` 可在 pending 保存不可变快照、有序 IDs 与 total，保留空 started_at、不登记运行代次。建批时冻结两阶段，只启动 WD；后续 pending→running 必须已有快照且前序全部 done，首次设置 started_at 并登记代次。默认 start=True 保持单阶段兼容。pending 的 error 可保存 `job:batch_paused` 或依赖等待原因，状态仍是 pending；整批控制与恢复语义见 [组合批次验收](22-F15-组合批次与覆盖预览验收.md)。
+
 `mode=all` 新 job 首轮必须忽略历史缓存并重新执行，不能被普通 cache-hit 短路。同一个 job 的重复结果、恢复则按已提交证据跳过；“其它旧 job 有相同键”与“本 job 已完成”必须区分。LLM 同时输出 tags/nl 时，两层共同提交才算一张成功，不能把单层缓存算整张覆盖。
 
 progress_json 是逐图持久凭据，不增加子表。启动物化筛选范围并冻结 image_ids；有终态 outcome 的图片恢复时不重做、不重复计数，即使当前标注后来换版。未有 outcome 的图按快照覆盖判定：all 只承认本 job 证据，其余模式允许当前缓存命中记 skipped。失败/跳过也是终态；手动重试创建新 job。只能保证已提交结果精确记账，不能保证外部 LLM 返回而未落库时不再次付费。
@@ -478,7 +488,7 @@ T = TypeVar('T')
 | SourcePatch | name: str \| None, cost_policy: Literal['deny','ask','allow'] \| None；锁定配置字段使用 UNSET，不含 cost_policy |
 | ItemSeed | seq: int, prompt: str, aspect: Aspect \| None |
 | SourceFilter / ItemFilter | statuses: tuple[相应状态, ...]；ItemFilter.source_id: int 必填 |
-| ImageFilter | source_ids: tuple[int,...] \| None, review_statuses: tuple[ReviewStatus,...] \| None, include_missing: bool；不接受 SQL 字符串 |
+| ImageFilter | source_ids: tuple[int,...] \| None, review_statuses: tuple[ReviewStatus,...] \| None, include_missing: bool；0.16.0 增加可选 rating、file_missing、q，复用工作台 SQL 语义；不接受 SQL 字符串 |
 | ImageArtifact | item_id: int, attempt: int, relative_staging_path: str, extension: str, width: int, height: int, phash: str \| None, sha256: str, file_size: int, png_meta: JsonObject \| None, receipt_digest: str |
 | Tag | tag: str, conf: float \| None |
 | AnnotationInput | image_id: int, source: Layer, type: AnnotationType, content: tuple[Tag,...] \| str, confidence: float \| None, model_name: str \| None, params: JsonObject, job_id: int \| None, cache_key: str \| None |
@@ -497,6 +507,8 @@ T = TypeVar('T')
 | RecoveryReport | paused_source_ids/job_ids、recovered/failed/unresolved item_ids、missing image_ids、orphan 相对文件名，均为不可变 tuple |
 | ExportSchemeInput / ImportSchemeInput | 与对应表除 scheme_id/时间之外各列一一对应；JSON 以验证后的对象/数组传入 |
 | MigrationInfo | from_version: int, to_version: int, name: str, checksum: str |
+
+0.16.0 范围合同：mode 决定缓存执行策略，Scope 决定图片成员，二者正交。selected 可使用筛选条件表达“全选筛选结果”，all 可使用明确 IDs 表达失败重试；仍只允许一个 selector，建批事务中冻结完整有序 IDs。扩展过滤字段省略默认 null 时，scope_json 保持旧版本形状和请求重放身份；不增加 SQL 列或迁移。失败重试创建新的 all 单阶段 job，在 params.retry_origin 中保存来源 job ID 与预览摘要，不修改旧 outcome。
 
 Row DTO 名称为 SourceRow、SourceItemRow、ImageRow、AnnotationRow、JobRow、OperationRow、ExportSchemeRow、ImportSchemeRow。JSON 的业务 schema 必须带内部 `schema_version`（新对象），旧版本解释由迁移统一处理；默认空对象仅用于 draft，不允许启动/执行时跳过验证。
 
@@ -579,7 +591,7 @@ def list_jobs(db: ReadSession, *, status: JobStatus | None,
               batch_id: str | None, page: PageRequest) -> Page[JobRow]: ...
 def create_batch(db: WriteSession, batch_id: str, requests: Sequence[JobRequest]) -> tuple[JobRow, ...]: ...
 def freeze_job(db: WriteSession, job_id: int, snapshot: JobSnapshot,
-               *, image_ids: Sequence[int]) -> WriteResult[JobRow]: ...
+               *, image_ids: Sequence[int], start: bool = True) -> WriteResult[JobRow]: ...
 
 # repositories/operations.py
 def get_operation(db: ReadSession, op_id: int) -> OperationRow: ...

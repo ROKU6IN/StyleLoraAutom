@@ -1,8 +1,56 @@
 # F11–F14 本地 API、进程与 CLI 设计
 
+实现补充（0.59.0）：产品默认配置 schema v2 与前台独立 `session` 已接入；独立写操作在同一自有 Runtime 中预览、确认、执行与控制，EOF 排空关闭，不跨会话重绑计划。下文旧阶段的“独立写入未实现”由本补充取代，详见 [本地综合验收](66-本地功能收尾与综合验收.md)。
+
+实现补充（0.58.0）：§9 独立服务容器第一阶段已接入 `source list/status/items/item/cost-state`、`job list/status/outcomes`、`import summary`、`export list/status/report` 和当前项目 `storage scan`。显式 `--standalone --project PATH` 持产品锁、通过 Runtime/项目打开协议工作，复用进程内 ASGI 路由与服务校验；无端口或控制管道。列表在本次容器内读完分页，退出不保留可重用的会话授权；成功、中断和失败均排空并关闭自有 Runtime，关闭失败保留排他并返回未知。预览/确认/提交、生成与标注执行、控制写入、清理及产品级命令尚未接入独立模式，继续使用既有长驻服务。见 [独立查询与扫描验收](65-F11-独立CLI查询与扫描验收.md)。
+
+实现补充（0.57.0）：`GET/POST /api/projects/{project_id}/sources/{source_id}/unknown-disposition` 提供直连未知请求的本地核对摘要和显式结束决定。POST 要求会话鉴权、项目句柄、Idempotency-Key、当前 If-Match 及两个严格 true 确认；同步完成本地持久化，不受理生成任务。记录 prepared/completed 可重开后读取并明确完成，GET 不自动修复；无 Token/网络需求。见 [直连未知请求人工处置验收](64-F02-直连未知请求人工处置验收.md)。
+
+实现补充（0.56.0）：§9 的 `doctor --probe-network` 已实现为只读网络诊断，显式使用配置中的凭据访问 LLM `/models` 和 NovelAI 直连账户读取接口；不执行模型测试/生成、不刷新配置或缓存。`--network-timeout` 为整个网络阶段共用的 5–120 秒预算（默认 30）；最多 16 个 LLM 端点和一个直连账户，不重试、不轮换失败凭据、不跟随重定向、不使用环境代理。默认与仅 `--verify-content` 均保持离线。Launcher/MCP 仍使用既有专用检查入口，本次未加入通用网络诊断。见 [显式网络诊断验收](63-F11-显式网络诊断验收.md)。
+
+实现补充（0.55.0）：§9 doctor 增加显式 `--verify-content`，核对已安装的内置审核模型文件完整 SHA-256；传入 `--project` 时，对无占用、无 WAL/SHM/journal/恢复痕迹的项目执行只读 SQLite 完整性、版本、内置结构、CHECK 约束及外键检查。`--content-timeout` 为每个模型/项目的协作式截止时间（5–600 秒，默认 120）；不下载、推理、启动服务、恢复或修复。默认仍是轻量元数据诊断。边界与验收见 [离线内容核验验收](62-F11-离线内容核验验收.md)。
+
+实现补充（0.54.0）：`ui`、`project init/open` 增加显式 `--start-service`（以及 5–120 秒的 `--startup-timeout`）。无实例时隐藏后台启动长驻 `serve --no-browser`，已有实例时附着；先验证当前用户管道身份与同实例 HTTP 就绪，再按原有 grant/HTTP/浏览器引导流程执行。并发启动由产品互斥锁裁决，超时/Ctrl+C 不杀服务，不自动重发业务请求。原请求重放标识和 standalone 模式不能与启动选项混用；状态查询、doctor 及其它 CLI 不隐式拉起服务。通用独立服务容器仍待实现。详细命令、生命周期和验收见 [按需启动服务验收](61-F11-按需启动服务验收.md)。
+
+实现补充（0.49.0）：A057/A058 单条查询与人工重试已通过 HTTP 和 `source item/retry-item` 实现，保留 F01 的 attempt 幂等与 done→paused 事务。`source update` 使用既有完整 Draft PUT，必须携带原版本；显式请求键绑定草稿/条目请求和 If-Match，响应丢失可核对原请求，跨实例拒绝旧请求。浏览器既有不带键的 PUT 仍兼容；本轮未增加 DDL、自动生成或自动重试。见 [来源编辑与失败项重试验收](56-F11-来源编辑与失败项重试验收.md)。
+
+实现补充（0.48.0）：§9 的 export 服务路径已实现为 preview/run 两阶段命令，另有 list/status/report/cancel。预览固定实例、项目、方案与请求键；run 要求计划摘要，触发词警告和硬链接分别要求对应摘要，不能由预览文件中的隐式标志替代。status/report 使用持久 export_id，cancel 默认等待实际终态，不将取消请求等同于已取消。保留原 export PROJECT 离线入口。详见 [服务化导出 CLI 验收](55-F11-服务化导出CLI验收.md)。
+
+实现补充（0.47.0）：§9 的 import 服务路径已实现为 preview ROOT/run --preview 两阶段命令，并提供 status/summary。原始目录只经 ACL 管道授权，HTTP 使用当前实例/项目的 grant；run 审核摘要并固定请求键，后台导入完成与持久来源状态分别核对。source pause/resume/cancel 已支持导入来源，import-root 提供重新授权与完整输入验证。原 import PROJECT ROOT 离线入口保留；导出服务化、失败项重试和通用独立容器仍待后续。见 [服务化导入 CLI 验收](54-F11-服务化导入CLI验收.md)。
+
+实现补充（0.46.0）：§9 的 nai 来源命令已通过现有 HTTP 服务实现；create、preview/run/reconcile、list/status/items、控制及费用命令见 [生成来源 CLI 验收](53-F11-生成来源CLI验收.md)。run 使用保存的交接预览和确认摘要，不直接接受任意 seeds 文件；暂停来源用明确 resume。导入来源创建/控制及 retry-item 仍待后续。confirm-cost 的 cycle-id 沿用 F01 的 32 位小写十六进制周期标识（非 UUID）。set-cost-policy allow 和创建 allow 草稿要求显式 confirm-allow，费用 ask 不自动同意。
+
+实现补充（0.45.0）：§9 prompt 命令组已通过产品级 HTTP 服务实现，不要求项目。preview --spec 接受 SamplingRequest；run --spec 接受保存的预览计划并要求 confirm-digest，冻结服务返回的 random_seed、任务编号和请求键。提供任务列表、状态、逐条结果、修订号控制及 seeds 内容投影；seeds 要求显式 expected-revision，成功 stdout 不携带产品引用或 CLI 元数据。沿用已有 ready/部分失败/暂停语义；不自动重试或跨实例重放旧计划。详见 [提示词任务 CLI 验收](52-F11-提示词任务CLI验收.md)。
+
+实现补充（0.44.0）：§9 的 job 命令组已附着既有 HTTP 批次服务。为明确确认冻结范围与配置，执行器/mode/ids/filter/config 参数放在 job preview，job run 使用保存的预览 JSON 与 confirm-digest；计划预分配 batch_id 和请求键，同计划再次运行只重放原请求。支持单 job/整批 status、pause/resume/cancel、list 与分页 outcomes。默认等待整批完成，保留部分失败、暂停和依赖阻塞语义；无独立模式或自动重试。详见 [标注任务 CLI 验收](51-F11-标注任务CLI验收.md)。确认摘要是客户端计划一致性检查，服务仍按现有范围摘要、CAS 和冻结合同执行。
+
+实现补充（0.43.0）：§9 的 project init/open/close/status 已通过现有 HTTP 项目服务实现。默认要求先运行 serve；open 不隐式启动进程。init --standalone 显式持产品锁，复用与 HTTP create 相同的 F01 创建/关闭服务，不创建完整 Runtime 或提供通用独立容器。默认等待，支持 detach 和任务查询；关闭绑定当前句柄与版本，未知请求保存原请求键、grant、版本与实例，跨重启拒绝重放。详细参数、退出码及边界见 [项目管理 CLI 验收](50-F11-项目管理CLI验收.md)。其它领域专用 CLI、自动拉起 serve 及通用独立服务容器仍待实现。
+
+实现补充（0.42.0）：§9 doctor 的离线本地阶段已实现，`doctor --project PATH? --json --runtime-dir PATH? --product-dir PATH?`。独立只读检查，不附着/启动服务、不调用 ProjectService.open，不打开项目 SQLite、迁移或恢复；只读容器与文件头的边界见 [doctor 验收](49-F11-本地诊断命令验收.md)。serve 与 doctor 共用目录解析。未提供 --probe-network 或修复选项，模型仅做清单和大小检查，不声明哈希或推理已通过。
+
+实现补充（0.41.0）：A065 `POST P/images/{image_id}/verify-file` 已实现，严格空 JSON、If-Match 和请求键，返回受生命周期管理的后台任务。仅核验用户已放回原位置的文件，大小/SHA-256 一致后解除 missing；保留审图/评级/标注。没有上传或任意路径参数。见 [原图恢复核验验收](48-缺失原图恢复核验与工作台验收.md)。
+
+实现补充（0.40.0）：§9 存储 CLI 已通过当前用户管道附着已有服务，提供 scan/cleanup/summary/status/results。清理确认显式要求 project_id、preview_id 和 confirm-digest，确认阶段不重新预览；受理输出可查询的任务标识，Ctrl+C 只停止等待，未知写入保留原请求键且不自动重试。无实例退出 3；本阶段不提供独立容器或路径模式，不自动打开/切换项目。见 [存储 CLI 与后台任务验收](47-存储CLI与后台任务验收.md)。
+
+实现补充（0.39.0）：A009/A010 本阶段仅开放 ProductConfig 的 storage_thresholds，严格白名单、CAS、请求键、原子文件替换和 no-op；其它统一产品配置字段未开放。新增只读 `GET /api/storage/summary` 用于跨页提醒，A122 保留项目摘要并增加 config_changed。扫描冻结配置版本和阈值。见 [存储阈值与提醒验收](46-存储阈值配置与跨页提醒验收.md)。
+
+实现补充（0.38.0）：A039 最近项目列表、A041 的 known_id 重开、A118/A119 已知项目只读统计已实现。known_id 跨重启持久，project_id 仍是打开句柄；列表签名游标绑定历史版本，扫描游标绑定 scan_id 和排序，错配均沿用 422 page:invalid_cursor。跨项目扫描不要求打开当前项目。见 [最近项目与跨项目存储验收](45-最近项目与跨项目存储验收.md)。
+
+实现补充（0.37.0）：A117/A120/A121/A122 当前项目扫描、清理预览/确认与历史摘要已实现；清理逐项审计到 `.cleanup/`，媒体与导出共用项目文件锁。A118/A119 跨项目汇总仍待最近项目记录。详见 [存储验收](44-项目存储扫描与安全清理验收.md)。
+
+实现更新（0.36.0）：新增来源范围 GET recovery、GET recovery/{item_id}、POST recovery 三条接口，细化 A046/A047 的生成条目恢复；原项目级 GET recovery 摘要保持兼容。POST 带条目恢复 If-Match、请求键和显式 restore 确认，返回 202 Operation；后台执行前再次校验并占用全局调度槽位。见 [恢复工作台验收](43-F02-F05-恢复工作台与HTTP验收.md)。
+
+实现补充（0.35.0）：注入式 SerialDriver 已接入既有 start/control/confirm-cost 的后台派发约定，dispatch 返回前保留项目引用；关闭项目通知调度停止接收新图，并等待已授权结果结清。只读对账和设置恢复暂为内部接口，生产无 driver，不增加恢复 HTTP/UI。详见 [调度验收](42-F02-F05-串行调度与未知结果对账验收.md)。
+
 版本：设计稿 v0.1；日期：2026-10-12。仅设计合同，不含实现代码。本文件不设计前端组件、布局或交互样式；前端设计归 `docs/F14-前端设计.md`，本文定义其消费的接口。
 
 ## 1. 权威来源、范围与版本口径
+
+实现补充（0.34.0）：增加来源 `GET cost-state`、`PATCH /sources/{id}`（费用策略）和 `POST confirm-cost`，并扩展 account-status 的项目/来源本地估算查询，见 [费用验收](41-F04-F21-费用策略与持久估算验收.md)。确认路由用 If-Match、周期及会话 Idempotency-Key，返回 200 SourceView，覆盖早期 A055 的 202 草案；实际生成仍由未来 driver 排队。周期 token 沿用 F01 的 32 位十六进制标识。C06 已实现，账号余额/订阅/体力仍未知，真实生成未开放。
+
+实现补充（0.33.0）：新增 `GET /api/backends/{backend_id}/settings-lease`，只读本地 F03 恢复状态，不连接 Launcher，不创建或修改恢复文件，无需打开项目。响应含 blocked、phase、reason、inflight、revision、version、source_id、changed_keys、recovery_adapter_available；不返回设置原值/目标值、身份或路径。未知后端 404，多余查询参数 422；沿用 Bearer/Host/Origin 校验，没有恢复写入或强制清除路由。损坏记录返回 blocked=true、phase=invalid，版本与来源置空，不影响项目查看。细节见 [F03 验收](40-F03-设置租约与恢复日志验收.md)。
+
+实现补充（0.31.0）：A023–A027 已实现，见 [F24 自定义尺寸预设验收](38-F24-自定义尺寸预设验收.md)。本轮尺寸/名称格式错误统一沿用现有严格 DTO 的 `422 schema:invalid`，覆盖下表早期的 `preset:invalid_size` 草案；内置改删仍为 `409 preset:builtin_locked`。创建、更新、删除要求 Idempotency-Key，更新/删除要求 If-Match；请求去重仅在当前进程会话有效，配置及资源版本跨重启持久化。没有增加数据库表或开启真实生成。
 
 已完整阅读的依据：
 
@@ -148,7 +196,7 @@ FrozenSeeds、SourceDraft/Profile、SamplingRequest、Dictionary、RuleSpec、Im
 
 全部 HTTP 列表默认 `limit=50`，范围 1..1000，超界 422，不静默截断；内部 DAL 仍可每页 200，不修改 F01。统一 `cursor`，不接 page/offset；A059另支持下述around_id定位。首批生成 upper_id；后续游标含 project generation/resource/filter digest/sort/last key/upper bound，HMAC 校验，不能跨列表或改过滤复用。
 
-DB 列表默认 `sort=id` 升序；支持 `sort=-id`，annotations 历史默认 -id，source_items 对外按 item_id，内部执行仍按 seq。别的 sort 只有能力清单声明才可用：跨项目 storage 允许 `-total_bytes,project_id`；近似 pair 为 `distance,left_id,right_id`；产品 UUID 列表为 `name,id`，来自冻结排序快照；任务 outcomes 按冻结 index 或 image_id。不得把客户端字段直接插入 SQL。
+DB 列表默认 `sort=id` 升序；支持 `sort=-id`，annotations 历史默认 -id，source_items 对外按 item_id，内部执行仍按 seq。别的 sort 只有能力清单声明才可用：跨项目 storage 允许 `-total_bytes,known_id`（默认）或 `known_id`，以持久编号而非当前打开句柄打破并列；近似 pair 为 `distance,left_id,right_id`；产品 UUID 列表为 `name,id`，来自冻结排序快照；任务 outcomes 按冻结 index 或 image_id。不得把客户端字段直接插入 SQL。
 
 多值过滤用重复 query 参数，例如 `review_status=keep&review_status=unreviewed`，同字段 OR、字段间 AND；未知 filter/sort 422；`q` 仅用于名称/标签，不作为正则。缺省 images 展示所有审图状态并包含 missing，执行器/规则/导出各按既定 Scope 默认，不混用列表默认。范围、预览和导出都在服务端物化，不能把浏览器当前页误作全选。
 
@@ -237,7 +285,7 @@ A062请求为二选一：`{ids: list[int], target: ReviewStatus, expected_versio
 | A021 | POST | U/llm/endpoints/{endpoint_id}/models/probe | If-Match →202 operation，候选/明确模态；失败不覆盖手填 | 503 llm:unauthorized | V§9 / MVP |
 | A022 | POST | U/llm/endpoints/{endpoint_id}/models/test-image | model:str+If-Match →202 operation；固定小图测试，避免 model 含 / 的路径问题 | 422 llm:image_unsupported | V§9、整合 / v1 |
 | A023 | GET | U/presets | page →Page Preset，实际三组像素/内置标记 | — | G§4、F24 / MVP |
-| A024 | POST | U/presets | name/sizes →201 Preset；正数且64倍数 | 422 preset:invalid_size | F24、整合 / MVP |
+| A024 | POST | U/presets | name/sizes →201 Preset；严格整数64–16384且64倍数，符合横/竖/方关系 | 422 schema:invalid（0.31.0） | F24、整合 / MVP |
 | A025 | GET | U/presets/{preset_id} | 无 →Preset | — | F24、整合 / MVP |
 | A026 | PUT | U/presets/{preset_id} | name/sizes+If-Match →Preset；只影响后续建源取值 | 409 preset:builtin_locked | F24、整合 / MVP |
 | A027 | DELETE | U/presets/{preset_id} | If-Match →204；已锁源仍保实际像素 | 409 preset:builtin_locked | F24、整合 / MVP |
@@ -321,6 +369,10 @@ A062请求为二选一：`{ids: list[int], target: ReviewStatus, expected_versio
 | A078 | POST | P/operation-log/{op_id}/undo | If-Match →OperationRow，仅最近applied；已undone no-op | 409 undo:not_latest、undo:conflict | D§7.2、E§6 / MVP |
 
 ### 5.8 jobs 与 prompt tasks
+
+0.16.0 补充：JobFilter 增加 rating/file_missing/q，和工作台共用过滤语义；mode 与 scope selector 分开，支持 selected+filter 和 all+selected_ids。新增 `GET P/jobs/{job_id}/retry-preview`（只读）及 `POST P/jobs/{job_id}/retry`（batch_id、preview_digest →202 新单阶段批次）。后端决定失败 ID 和冻结配置，客户端不能提交扩大范围或改配置；原批次须全部终结。详见 [0.16.0 验收](23-F14-工作台执行器与失败重试验收.md)。
+
+实现补充（0.15.0）：A079 支持 `{wd, llm_vision}` 组合 config 和可选 `preview_scope_digest`，两阶段同事务冻结，返回 `batch_url`。增加只读 `POST P/jobs/preview`、分页 `GET P/jobs/batches`、聚合 `GET P/jobs/batches/{batch_id}` 与 `POST P/jobs/batches/{batch_id}/control`（pause/resume/cancel + 整批 If-Match）。沿用下表的逐 job 查询/控制；没有新增持久任务种类。详细响应、范围校验与接续合同见 [0.15.0 验收](22-F15-组合批次与覆盖预览验收.md)。
 
 | ID | 方法 | 路径 | 请求 → 响应要点 | 领域错误 | 来源 / 阶段 |
 |---|---|---|---|---|---|
@@ -526,7 +578,7 @@ Host严格匹配实际 `127.0.0.1:<port>`（开发代理也发送此Host），�
 | source create | `--type {nai,import} --spec FILE` | SourceService；spec严格schema，禁止秘密/产品引用写项目 |
 | source run | `SOURCE_ID --seeds FILE? --wait/--detach` | draft需完整seeds或已核验import输入；paused走resume；默认不授权非零费用 |
 | source pause / resume / cancel | `SOURCE_ID` | 同HTTP控制；resume不继承旧费用确认 |
-| source confirm-cost | `SOURCE_ID --cycle-id UUID` | 明确当前周期同意；deny仍拒绝；无隐式yes-to-all |
+| source confirm-cost | `SOURCE_ID --cycle-id HEX32` | 明确当前周期同意；deny仍拒绝；无隐式yes-to-all |
 | source retry-item | `ITEM_ID --expected-attempt N` | 同F01人工重试；只加一次attempt，不自动run |
 | import | `ROOT --scheme ID --name NAME --wait/--detach` | 授权根→预览→同ImportService；报告重复汇总，原文件只读 |
 | job run | `--executor wd[,llm_vision] --mode {selected,uncovered,all} --ids ...或--filter FILE` | 建batch且冻结；不直接调用模型/写annotations |

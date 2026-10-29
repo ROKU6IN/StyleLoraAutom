@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "manifest_id": "90f63fb27ed54b7abc1c72c9b2009e0fe5248e7bf15293c195d7f5ed117d35d1",
+  "device": {
+    "gpu_name": "NVIDIA GeForce RTX 5060 Ti",
+    "driver_version": "610.88",
+    "provider": "cpu",
+    "total_bytes": 17103323136,
+    "free_bytes": 14264291328,
+    "source": "nvml",
+    "runtime_version": "1.31.0",
+    "cuda_available": true,
+    "reserved_bytes": 3420664627,
+    "cuda_verified": false,
+    "reason": "tagger:cuda_not_verified",
+    "cuda_libraries": {
+      "nvidia-cuda-runtime": "13.4.92",
+      "nvidia-cudnn-cu13": "9.27.0.42",
+      "nvidia-cublas": "13.8.0.4"
+    }
+  },
+  "runtime": {
+    "available": true,
+    "reason": null,
+    "version": "1.31.0",
+    "cuda_available": true
+  },
+  "policy": "fp32-no-tf32-arena-same-v1",
+  "scope": "CUDA implementation consistency and measured VRAM; not dataset accuracy",
+  "batches": [
+    {
+      "size": 1,
+      "load_seconds": 2.8684281000023475,
+      "warm_seconds_per_image": 0.0886621500030742,
+      "max_abs_error": 1.5497207641601562e-06,
+      "baseline_used_bytes": 2839031808,
+      "peak_used_bytes": 4859084800,
+      "observed_session_peak_bytes": 2020052992,
+      "cuda_node_events": 25344,
+      "cpu_node_events": 9198
+    },
+    {
+      "size": 2,
+      "load_seconds": 2.3050606999895535,
+      "warm_seconds_per_image": 0.0865803250017052,
+      "max_abs_error": 1.3709068298339844e-06,
+      "baseline_used_bytes": 2957099008,
+      "peak_used_bytes": 5143576576,
+      "observed_session_peak_bytes": 2186477568,
+      "cuda_node_events": 12672,
+      "cpu_node_events": 4599
+    },
+    {
+      "size": 4,
+      "load_seconds": 2.363916700007394,
+      "warm_seconds_per_image": 0.0876579000014317,
+      "max_abs_error": 1.3709068298339844e-06,
+      "baseline_used_bytes": 2941566976,
+      "peak_used_bytes": 5818204160,
+      "observed_session_peak_bytes": 2876637184,
+      "cuda_node_events": 8448,
+      "cpu_node_events": 3066
+    }
+  ],
+  "evidence_note": "Summary of explicit local CUDA acceptance on 2026-10-25; full logs and ORT profiles in .test-tmp/wd-gpu-acceptance-01. CUDA library versions recorded by pip installation log."
+}

@@ -1,0 +1,92 @@
+[
+  {
+    "id": "R1-sfw",
+    "available": true,
+    "role": "prompt",
+    "files": {
+      "prompt": {
+        "name": "r1-sfw.md",
+        "sha256": "a858d11d9da252cdf54e55e1865dcd34fb55970b5785273d277fba5728ef5fae"
+      },
+      "schema": {
+        "name": "r1-schema.json",
+        "sha256": "11700c9c37d0e92e04bf50b54629d36af05e2fb8a5d822a19255fae14f3bc69a"
+      }
+    }
+  },
+  {
+    "id": "R0",
+    "available": true,
+    "role": "shared",
+    "files": {
+      "prompt": {
+        "name": "r0.md",
+        "sha256": "e275d21e4881b0e8bf17181acea0052de8fd5ca4141a4b14f6ebd48097d895fb"
+      },
+      "schema": {
+        "name": "r0-schema.json",
+        "sha256": "f8421f7d69ba33f565d4d158546b63c9a4c38d5ed50ba720a25e78da6918baf5"
+      }
+    }
+  },
+  {
+    "id": "R2",
+    "available": true,
+    "role": "vision",
+    "files": {
+      "prompt": {
+        "name": "r2.md",
+        "sha256": "bc1cc0120ec3083bf0c10a4d85c01abe4db114269164f4db401dc014db3a4710"
+      },
+      "schema": {
+        "name": "r2-schema.json",
+        "sha256": "a53caa2a4462751a95d0817bd7f8b29a4a5c01dc09d68101d58cfe452efc7bdf"
+      }
+    }
+  },
+  {
+    "id": "R5",
+    "available": true,
+    "role": "rating",
+    "files": {
+      "prompt": {
+        "name": "r5.md",
+        "sha256": "8d8b73ccf80751f3435523ffaa7127bebe20d28c0073520674d4992b0dade9e2"
+      },
+      "schema": {
+        "name": "r5-schema.json",
+        "sha256": "b1935fbaaf629f9efe4f17ce07740413af986b1119c03f9a1ace60bcec6e3e1b"
+      }
+    }
+  },
+  {
+    "id": "R1-nsfw",
+    "available": true,
+    "role": "prompt_nsfw",
+    "files": {
+      "prompt": {
+        "name": "r1-nsfw.md",
+        "sha256": "f032c140d7f4e7b57479ac069b369b4012770ca25835ee34983b918cd2275b2a"
+      },
+      "schema": {
+        "name": "r1-schema.json",
+        "sha256": "11700c9c37d0e92e04bf50b54629d36af05e2fb8a5d822a19255fae14f3bc69a"
+      }
+    }
+  },
+  {
+    "id": "R0-routing-v2",
+    "available": true,
+    "role": "shared",
+    "files": {
+      "prompt": {
+        "name": "r0-routing-v2.md",
+        "sha256": "52fab3728adb7d7834ae0f7ee14bdc68e1abecec7ab20ff76dc2a752c17fb9ed"
+      },
+      "schema": {
+        "name": "r0-schema.json",
+        "sha256": "f8421f7d69ba33f565d4d158546b63c9a4c38d5ed50ba720a25e78da6918baf5"
+      }
+    }
+  }
+]

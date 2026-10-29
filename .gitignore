@@ -1,30 +1,103 @@
-# Python
+# Python environments, caches and packaging output
 __pycache__/
 *.py[cod]
-.venv/
+.venv*/
 venv/
+.tox/
+.nox/
 *.egg-info/
 .pytest_cache/
 .ruff_cache/
+.mypy_cache/
+/build/
+*.whl
 
-# Node
+# Node dependencies and generated frontend bundles
 node_modules/
 dist/
 .vite/
+*.tsbuildinfo
+/src/stylelora/api/web_dist/
+# Keep web/package-lock.json and web/src/api/schema.d.ts.
+# Keep src/stylelora/api/assets: these are maintained source assets.
 
-# 项目数据与产物（不入库）
+# Local tests, measurements and temporary exports
+/.test-tmp/
+/.local-exports/
+/release-exports/
+coverage/
+.coverage
+.coverage.*
+htmlcov/
+test-results/
+playwright-report/
+*.log
+*.tmp
+*.bak
+
+# User projects, downloaded data and model weights
 *.slproj/
-data/
-dataset/
-exports/
+/data/
+/dataset/
+/datasets/
+/exports/
+/models/
+/downloads/
+*.sqlite
+*.sqlite3
+*.db
+*.db-wal
+*.db-shm
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite3-wal
+*.sqlite3-shm
+*.onnx
+*.onnx_data
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.zip
+*.7z
+# Root-only data rules intentionally preserve these runtime resources:
+# src/stylelora/llm/data/** and src/stylelora/caption/data/**.
 
-# 本地密钥与环境
+# Local credentials and environment values (examples may be shared)
 .env
 .env.*
+!.env.example
+!.env.sample
 secrets.json
+secrets.*.json
+credentials.json
+credentials.*.json
+auth.json
+.npmrc
+.pypirc
+*.pem
+*.key
+*.p12
+*.pfx
 
-# 编辑器与系统
+# Pre-existing developer-agent setup, not product runtime skills
+/.opencode/
+/opencode.json
+/opencode.jsonc
+/.codex/
+/.agents/
+/.aws/
+# Keep skills/**: reviewed runtime prompt sources, used by package checks.
+
+# VCS metadata, editor and OS files
+.git/
+.hg/
+.svn/
 .idea/
 .vscode/
+*.code-workspace
+*.swp
+*.swo
 .DS_Store
 Thumbs.db
+Desktop.ini

@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "version": "pyramid-local-v1",
+  "groups": {
+    "subject": ["1girl", "1boy", "2girls", "2boys", "3girls", "3boys", "4girls", "4boys", "5girls", "5boys", "6girls", "6boys", "solo", "multiple girls", "multiple boys", "no humans", "long hair", "short hair", "medium hair", "very long hair", "black hair", "brown hair", "blonde hair", "white hair", "grey hair", "red hair", "blue hair", "green hair", "pink hair", "purple hair", "ponytail", "twintails", "braid", "bob cut", "blue eyes", "brown eyes", "green eyes", "red eyes", "yellow eyes", "purple eyes", "heterochromia"],
+    "action_expression": ["standing", "sitting", "walking", "running", "jumping", "kneeling", "lying", "reclining", "crouching", "dancing", "smile", "grin", "laughing", "crying", "frown", "blush", "wink", "closed eyes", "open mouth", "looking at viewer", "looking away", "hand on hip", "hands on hips", "arms crossed", "arms up"],
+    "clothing": ["shirt", "white shirt", "black shirt", "dress", "white dress", "black dress", "red dress", "skirt", "pleated skirt", "long skirt", "shorts", "pants", "jeans", "jacket", "coat", "hoodie", "sweater", "school uniform", "sailor collar", "kimono", "hat", "gloves", "boots", "shoes", "socks", "thighhighs", "pantyhose", "necktie", "bowtie", "hair ribbon"],
+    "composition": ["portrait", "close-up", "upper body", "full body", "cowboy shot", "wide shot", "very wide shot", "from above", "from below", "from side", "front view", "back view", "eye level", "dutch angle", "depth of field", "foreshortening", "centered composition"],
+    "scene": ["indoors", "outdoors", "forest", "beach", "cityscape", "mountain", "mountains", "ocean", "sea", "sky", "clouds", "classroom", "bedroom", "street", "garden", "scenery", "night sky", "starry sky", "snowy landscape"],
+    "lighting": ["sunlight", "moonlight", "backlighting", "rim lighting", "soft lighting", "studio lighting", "ambient lighting", "dramatic lighting", "volumetric lighting", "neon lighting"]
+  }
+}

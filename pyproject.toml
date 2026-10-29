@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stylelora"
+version = "0.59.0"
+description = "Local dataset editor foundations and transactional project database"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["Pillow==12.3.0", "fastapi>=0.162,<0.163", "uvicorn>=0.54,<0.55", "httpx>=0.28,<0.29", "python-multipart>=0.0.32,<0.1", "jsonschema>=4.26,<5", "PyYAML==6.0.3"]
+
+[project.optional-dependencies]
+wd-cpu = ["onnxruntime==1.31.0"]
+wd-gpu = ["onnxruntime-gpu[cuda,cudnn]==1.31.0", "nvidia-ml-py>=13,<14"]
+
+[project.scripts]
+stylelora = "stylelora.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+namespaces = false
+
+[tool.setuptools.package-data]
+"stylelora.project_db" = ["migrations/*.sql"]
+"stylelora.llm" = ["data/*.json", "data/*.md"]
+"stylelora.caption" = ["data/*.json", "data/*.md"]
+"stylelora.api" = ["assets/*.html", "assets/*.js", "web_dist/*.html", "web_dist/assets/*"]

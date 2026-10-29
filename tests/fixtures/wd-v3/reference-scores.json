@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "manifest_id": "90f63fb27ed54b7abc1c72c9b2009e0fe5248e7bf15293c195d7f5ed117d35d1",
+  "reference": {
+    "revision": "fbd35b187d6e8cb8a00c529d52999f82d6b5193b",
+    "code_sha256": "a6526595fe9582d4307732ac1b3778df8a89a0a69d690e17f91813bf4b0063f7",
+    "image_sha256": "6fbc5cdb614aaa882067e80abbcc2773c284fdeabccd0ee269364504e9fc0995"
+  },
+  "runtime": {
+    "available": true,
+    "reason": null,
+    "version": "1.31.0"
+  },
+  "pillow": "12.3.0",
+  "tolerances": {
+    "atol": 1e-05,
+    "rtol": 0.0001
+  },
+  "cases": {
+    "publisher-original.jpg": "6fbc5cdb614aaa882067e80abbcc2773c284fdeabccd0ee269364504e9fc0995",
+    "portrait.png": "d04682a585ed8a9e5372b5a4af869846a24b81e2e408d095794e8ac4593598c4",
+    "landscape.png": "d2ed63747e7ce7ee1c55f38cccba62119d64cec7385a73051eb159957fe61eb9",
+    "alpha.png": "c93acf7c5e6cd4f56b2b97d117cf2e88aa43d2215fd47655afb5eaa8f268b483",
+    "exif.png": "4acd93e11babc1afec920e193ec9d2a83b6252cc5eb7a28da4d6a21f9a7a3413",
+    "small.png": "3ed4cba494e6c6347b7f423350c8c651729314d5bc2809f8cbf349f60bc4bce1"
+  },
+  "scores_sha256": "bc63e8972f5562ac7a432c0ee8e9b47c78a7f980ff318097cdd8c9d7a4756439"
+}

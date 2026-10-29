@@ -1,0 +1,384 @@
+.button {
+  min-height: var(--control-height);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  border: var(--stroke-hairline) solid var(--color-border-strong);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-5);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.button:hover:not(:disabled) {
+  background: var(--color-accent-subtle);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+.primary {
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  border-color: var(--color-accent);
+}
+.primary:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+  color: var(--color-accent-contrast);
+}
+.quiet {
+  border-color: transparent;
+  background: transparent;
+}
+.danger {
+  color: var(--color-danger);
+}
+.small {
+  min-height: 1.75rem;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-sm);
+}
+.icon {
+  display: inline-block;
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+  flex-shrink: 0;
+  background: currentColor;
+  mask-size: contain;
+  mask-position: center;
+  mask-repeat: no-repeat;
+}
+.row {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  flex-wrap: wrap;
+}
+.between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-5);
+}
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+.grow {
+  flex: 1;
+  min-width: 0;
+}
+.muted {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+}
+.eyebrow {
+  font-family: var(--font-mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  font-size: var(--font-size-xs);
+}
+.section {
+  padding: var(--space-6);
+  border: var(--stroke-hairline) solid var(--color-border);
+  background: var(--color-surface);
+}
+.field {
+  display: grid;
+  gap: var(--space-3);
+}
+.field label {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+}
+.input {
+  min-width: 0;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border: var(--stroke-hairline) solid currentColor;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  white-space: nowrap;
+}
+.keep {
+  color: var(--color-review-keep);
+}
+.reject {
+  color: var(--color-review-reject);
+}
+.unreviewed {
+  color: var(--color-review-unreviewed);
+}
+.notice {
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-accent-subtle);
+  color: var(--color-accent);
+  border-inline-start: var(--stroke-focus) solid currentColor;
+}
+.error {
+  background: var(--color-danger-subtle);
+  color: var(--color-danger);
+  padding: var(--space-4) var(--space-5);
+  border-inline-start: var(--stroke-focus) solid currentColor;
+  overflow-wrap: anywhere;
+}
+.warning {
+  background: var(--color-warning-subtle);
+  color: var(--color-warning);
+}
+.empty {
+  min-height: 20rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-5);
+  padding: var(--space-8);
+  text-align: center;
+}
+.empty h2 {
+  font-size: var(--font-size-2xl);
+}
+.empty p {
+  max-width: 30rem;
+  color: var(--color-text-secondary);
+}
+.emptyMark {
+  inline-size: 3.5rem;
+  block-size: 3.5rem;
+  display: grid;
+  place-items: center;
+  color: var(--color-accent);
+  background: var(--color-accent-subtle);
+}
+.emptyMark .icon {
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+}
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--color-scrim);
+  z-index: var(--z-modal);
+}
+.dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(92vw, 34rem);
+  max-height: 90dvh;
+  overflow: auto;
+  z-index: var(--z-modal);
+  padding: var(--space-7);
+  background: var(--color-surface-raised);
+  border: var(--stroke-hairline) solid var(--color-border-strong);
+  box-shadow: var(--shadow-popover);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+.wide {
+  width: min(94vw, 70rem);
+}
+.dialogTitle {
+  font-size: var(--font-size-xl);
+}
+.dialogDescription {
+  color: var(--color-text-secondary);
+}
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+  flex-wrap: wrap;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+.table th {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+.table th,
+.table td {
+  padding: var(--space-4);
+  border-bottom: var(--stroke-hairline) solid var(--color-border);
+}
+.tableWrap {
+  overflow: auto;
+  max-width: 100%;
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: var(--space-5);
+}
+.number {
+  font: 500 2rem/1 var(--font-mono);
+}
+.divider {
+  height: var(--stroke-hairline);
+  background: var(--color-border);
+  border: 0;
+  margin: var(--space-3) 0;
+}
+.tag {
+  display: inline-flex;
+  gap: var(--space-3);
+  align-items: center;
+  padding: var(--space-2) var(--space-3);
+  color: var(--color-text-secondary);
+  border: var(--stroke-hairline) solid var(--color-border);
+  background: var(--color-surface-sunken);
+  font: var(--font-size-sm) / 1.5 var(--font-mono);
+  overflow-wrap: anywhere;
+}
+.tag button {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  padding: 0 var(--space-2);
+}
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+.caption {
+  padding: var(--space-5);
+  background: var(--color-surface-sunken);
+  border: var(--stroke-hairline) solid var(--color-border);
+  font: var(--font-size-sm) / 1.8 var(--font-mono);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.tabs {
+  display: flex;
+  border-bottom: var(--stroke-hairline) solid var(--color-border);
+  gap: var(--space-4);
+}
+.tab {
+  border: 0;
+  border-bottom: var(--stroke-focus) solid transparent;
+  background: transparent;
+  color: var(--color-text-muted);
+  padding: var(--space-4) var(--space-2);
+}
+.tab[aria-selected='true'] {
+  color: var(--color-accent);
+  border-bottom-color: var(--color-accent);
+}
+.srOnly {
+  position: absolute;
+  width: var(--stroke-hairline);
+  height: var(--stroke-hairline);
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.hold {
+  position: relative;
+  overflow: hidden;
+}
+.hold[aria-pressed='true'] {
+  background: var(--color-danger-subtle);
+}
+.progressLabel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  font-size: var(--font-size-sm);
+}
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+}
+@media (max-width: 45rem) {
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+  .dialog {
+    padding: var(--space-5);
+  }
+}
+.scroll {
+  overflow: auto;
+  max-height: 18.75rem;
+}
+.scroll table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+.scroll th,
+.scroll td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: var(--stroke-hairline) solid var(--color-border);
+  overflow-wrap: anywhere;
+}
+
+.floatingPanel {
+  position: absolute;
+  inset-block: 0;
+  right: 0;
+  width: var(--detail-width);
+  box-sizing: border-box;
+  overflow: auto;
+  background: var(--color-surface);
+  border-left: var(--stroke-hairline) solid var(--color-border-strong);
+  box-shadow: var(--shadow-popover);
+  padding: var(--space-4);
+  z-index: 2;
+}
+.floatingPanel[hidden] {
+  display: none;
+}
+.floatingPanel .section {
+  padding: var(--space-4);
+}
+.floatingPanel .formGrid {
+  grid-template-columns: 1fr;
+}
+.floatingPanel .table {
+  min-width: 28rem;
+}
+.floatingPanel .table th {
+  white-space: nowrap;
+}
+.floatingPanel h2 {
+  font-size: var(--font-size-md);
+}
+@media (max-width: 70rem) {
+  .floatingPanel {
+    width: 18rem;
+  }
+}
+@media (max-width: 48rem) {
+  .floatingPanel {
+    width: 100%;
+  }
+}

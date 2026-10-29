@@ -1,0 +1,62 @@
+:root,
+[data-theme='light'] {
+  color-scheme: light;
+  --color-bg: var(--base-neutral-0);
+  --color-surface: var(--base-neutral-0);
+  --color-surface-raised: var(--base-neutral-0);
+  --color-surface-sunken: var(--base-neutral-50);
+  --color-scrim: color-mix(in srgb, var(--base-neutral-900) 60%, transparent);
+  --color-border: var(--base-neutral-300);
+  --color-border-strong: var(--base-neutral-500);
+  --color-text-primary: var(--base-neutral-900);
+  --color-text-secondary: var(--base-neutral-700);
+  --color-text-muted: var(--base-neutral-600);
+  --color-accent: var(--base-purple-700);
+  --color-accent-hover: var(--base-purple-800);
+  --color-accent-subtle: var(--base-purple-50);
+  --color-accent-contrast: var(--base-neutral-0);
+  --color-focus-ring: var(--base-purple-700);
+  --color-success: var(--base-green-700);
+  --color-warning: var(--base-amber-700);
+  --color-danger: var(--base-red-700);
+  --color-info: var(--base-teal-700);
+  --stage-checker-a: var(--base-neutral-0);
+  --stage-checker-b: var(--base-neutral-300);
+  --stage-solid-white: var(--base-neutral-0);
+  --stage-solid-gray: var(--base-neutral-500);
+  --stage-solid-black: var(--base-neutral-950);
+  --stage-dark: var(--base-plum-900);
+}
+[data-theme='dark'] {
+  color-scheme: dark;
+  --color-bg: var(--base-plum-900);
+  --color-surface: var(--base-plum-900);
+  --color-surface-raised: var(--base-plum-800);
+  --color-surface-sunken: var(--base-plum-950);
+  --color-scrim: color-mix(in srgb, var(--base-plum-950) 70%, transparent);
+  --color-border: var(--base-plum-800);
+  --color-border-strong: var(--base-plum-600);
+  --color-text-primary: var(--base-plum-50);
+  --color-text-secondary: var(--base-plum-200);
+  --color-text-muted: var(--base-plum-400);
+  --color-accent: var(--base-purple-200);
+  --color-accent-hover: var(--base-purple-100);
+  --color-accent-subtle: var(--base-purple-950);
+  --color-accent-contrast: var(--base-purple-950);
+  --color-focus-ring: var(--base-purple-200);
+  --color-success: var(--base-green-300);
+  --color-warning: var(--base-amber-300);
+  --color-danger: var(--base-red-300);
+  --color-info: var(--base-teal-300);
+  --stage-checker-a: var(--base-neutral-700);
+  --stage-checker-b: var(--base-neutral-800);
+  --stage-dark: var(--base-plum-950);
+}
+:root {
+  --color-success-subtle: color-mix(in srgb, var(--color-success) 10%, var(--color-surface));
+  --color-warning-subtle: color-mix(in srgb, var(--color-warning) 10%, var(--color-surface));
+  --color-danger-subtle: color-mix(in srgb, var(--color-danger) 10%, var(--color-surface));
+  --color-review-unreviewed: var(--color-text-muted);
+  --color-review-keep: var(--color-success);
+  --color-review-reject: var(--color-danger);
+}

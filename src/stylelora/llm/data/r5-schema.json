@@ -1,0 +1,44 @@
+{
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "rating": {
+          "enum": [
+            "general",
+            "sensitive",
+            "questionable",
+            "explicit",
+            "uncertain"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "maxLength": 2048
+        }
+      },
+      "required": [
+        "rating",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "status": {
+          "const": "refused_nsfw"
+        },
+        "reason": {
+          "type": "string",
+          "maxLength": 2048
+        }
+      },
+      "required": [
+        "status",
+        "reason"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

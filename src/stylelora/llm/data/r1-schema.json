@@ -1,0 +1,128 @@
+{
+  "type": "object",
+  "properties": {
+    "status": {
+      "enum": [
+        "ok",
+        "refused_nsfw",
+        "invalid_input"
+      ]
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "natural_language": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "out_of_frame": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "added": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "dropped": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tag": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "tag",
+          "reason"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "aspect": {
+      "enum": [
+        "landscape",
+        "portrait",
+        "square",
+        null
+      ]
+    },
+    "reason": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "status",
+    "tags",
+    "natural_language",
+    "out_of_frame",
+    "added",
+    "dropped",
+    "aspect"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "ok"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "aspect": {
+            "enum": [
+              "landscape",
+              "portrait",
+              "square"
+            ]
+          }
+        },
+        "not": {
+          "required": [
+            "reason"
+          ]
+        }
+      },
+      "else": {
+        "required": [
+          "reason"
+        ],
+        "properties": {
+          "tags": {
+            "maxItems": 0
+          },
+          "natural_language": {
+            "type": "null"
+          },
+          "aspect": {
+            "type": "null"
+          },
+          "out_of_frame": {
+            "maxItems": 0
+          },
+          "added": {
+            "maxItems": 0
+          },
+          "dropped": {
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  ]
+}

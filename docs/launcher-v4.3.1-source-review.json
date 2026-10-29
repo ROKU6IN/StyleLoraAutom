@@ -1,0 +1,166 @@
+{
+  "repository": "https://github.com/Aaalice233/Aaalice_NAI_Launcher",
+  "release": "v4.3.1",
+  "commit": "60b2129308de8b04df0798dee36ce21e7e6f3872",
+  "review_date": "2026-10-28",
+  "scope": "Source review only; no binary execution or live Launcher acceptance",
+  "sha256_origin": "Locally recomputed after Git blob verification against official commit tree",
+  "files": [
+    {
+      "path": "docs/mcp_server.md",
+      "git_blob_sha1": "5436a79058798cab4c4da060b656ac6330f8a910",
+      "sha256": "79d7c436b1400f52ec5b3eb0c75dd0fc82b77dcf48ad532312b8fe48e0f515c4",
+      "bytes": 29476
+    },
+    {
+      "path": "lib/core/constants/api_constants.dart",
+      "git_blob_sha1": "d8131da3f6ee6c6bb92abe315733a4b3415e0fb8",
+      "sha256": "862f9e898da51f37820b46483741afba2d56ef7a6af5fc4c9a44f5ff6e532963",
+      "bytes": 55165
+    },
+    {
+      "path": "lib/core/constants/app_version.dart",
+      "git_blob_sha1": "c2ee78f70c22dd38fcbef4b5cbcc2d447fbb714b",
+      "sha256": "ff2457a1982083896db016f40a214ec37d51e0d3012871cf3cd4432c4357ffce",
+      "bytes": 2043
+    },
+    {
+      "path": "lib/core/mcp/mcp_discovery_file.dart",
+      "git_blob_sha1": "483410b2929ed6d45bd608f0f44836642e5f52d5",
+      "sha256": "d385ed5453ed470780f6dbe51cad8064259fde01e6cdb88ab8822bffc86864aa",
+      "bytes": 5149
+    },
+    {
+      "path": "lib/core/mcp/mcp_launcher_server.dart",
+      "git_blob_sha1": "d35f09f7668d51311d1eb4c8d68865707951fdf0",
+      "sha256": "5c7c4cf8eb88885c4057fb7e6fe0d40894af98bf60e8f4684dc81353abcd7f44",
+      "bytes": 3824
+    },
+    {
+      "path": "lib/core/mcp/mcp_server_constants.dart",
+      "git_blob_sha1": "1146ac1d2222434f51a65e34ae5dfe6b64e0e226",
+      "sha256": "5d91657ef19d4bb87c26af32414fdee5a5992c59d8c4526920fca4f9af9d58d1",
+      "bytes": 1102
+    },
+    {
+      "path": "lib/core/mcp/mcp_tool_adapter.dart",
+      "git_blob_sha1": "5e605469e2422da65cd3585e7244f21750c1d3ef",
+      "sha256": "5bcf2895a7eb6ed01c12f82876a04dbab1b00972d17d00d7f7fabd356099e7e2",
+      "bytes": 3531
+    },
+    {
+      "path": "lib/core/platform/launcher_discovery_directory.dart",
+      "git_blob_sha1": "ea422f03e9b24cbb52ac36d70231848fe72176b9",
+      "sha256": "e7cfce2680a099c3f92715a94444b6b1ca6cfe63817c949007b71f647b68867f",
+      "bytes": 574
+    },
+    {
+      "path": "lib/data/models/image/image_params.dart",
+      "git_blob_sha1": "2ecf99d2f505eceeca0e4c39a50c7b5c0c83ba2b",
+      "sha256": "9ce4153b5aa8fb5038d220e568f17e10a04733b7f2db15a43d0d48eaf7a8dbed",
+      "bytes": 15887
+    },
+    {
+      "path": "lib/presentation/agent_chat/services/generation_execution_service.dart",
+      "git_blob_sha1": "d8a721381d80deb878519497334cc5fa836216f0",
+      "sha256": "f5b045a3326a1a784ffd638a85c7420d9f13f3cca17cbf5cf78018ed05c41da0",
+      "bytes": 10796
+    },
+    {
+      "path": "lib/presentation/agent_chat/services/generation_history_service.dart",
+      "git_blob_sha1": "bc8522258b38bcb281f76bfb046fd58c00a39a68",
+      "sha256": "d241bb898e921ca4fe9ec7d241e5a88a43a488f504fd48b92c7917f9117e07d8",
+      "bytes": 2079
+    },
+    {
+      "path": "lib/presentation/agent_chat/services/generation_preparation_runtime.dart",
+      "git_blob_sha1": "72a89284bcec4378290c0c3b4547730a86d8b3fa",
+      "sha256": "7e2041b7a16d42fde940fbce3b355f2787ddd7a0f33bc949c259a58d81eeeb93",
+      "bytes": 4463
+    },
+    {
+      "path": "lib/presentation/agent_chat/services/generation_preparation_schema.dart",
+      "git_blob_sha1": "a51f81e25a85f8f4c28d94d00f0d7030c3b712ea",
+      "sha256": "2f3f6e07a717460e2801addb786faed5c94b71ba8679453e9a4c1be02c58ba01",
+      "bytes": 5931
+    },
+    {
+      "path": "lib/presentation/agent_chat/services/generation_preparation_service.dart",
+      "git_blob_sha1": "d6c18dd2bd1e2370a6115b814cc45e9c4e5db780",
+      "sha256": "9d84eb38eba072445188c6db77161f392123859c5464172e5a4f2d00d4f40fa5",
+      "bytes": 26776
+    },
+    {
+      "path": "lib/presentation/agent_chat/services/generation_resource_toolbox.dart",
+      "git_blob_sha1": "a994efd7abe751fd21b1d7cf33600092a8c26d5e",
+      "sha256": "3f5bc83da6ba0803daa7edc9c98f0747d57b54c1663a52c148a2b5db14746176",
+      "bytes": 4750
+    },
+    {
+      "path": "lib/presentation/agent_chat/services/generation_settings_service.dart",
+      "git_blob_sha1": "c6a67a8ffe6127a992b12a2b5582bcca838641fa",
+      "sha256": "daa87798a3ef39e927880b1dcf354bfde89755c6ac1a53a271f51bae309bfa1d",
+      "bytes": 8931
+    },
+    {
+      "path": "lib/presentation/agent_chat/services/generation_status_service.dart",
+      "git_blob_sha1": "e45a7cc4b61fc557a4bb456e9e4b539f10efe656",
+      "sha256": "beb8ae6bfbf467635ea5552a6f4883ddf1e23f44af4ae00328f4a21041b55baa",
+      "bytes": 1912
+    },
+    {
+      "path": "lib/presentation/agent_chat/services/generation_tool_definitions.dart",
+      "git_blob_sha1": "8ac96c1a8bea25899ba7a3c872f0ce0e0f04fddc",
+      "sha256": "bb1af730bb9be7f6f71159266f547b097e51c8137796eed27029a27123403379",
+      "bytes": 21982
+    },
+    {
+      "path": "lib/presentation/agent_chat/services/generation_toolbox.dart",
+      "git_blob_sha1": "14ae2dc35addc63357acc8d892e304316b5d4474",
+      "sha256": "844162ac7cea4cc9429bebbf37b5633e52d24d13199b945b0b4e38fd834a7990",
+      "bytes": 4546
+    },
+    {
+      "path": "lib/presentation/agent_chat/services/tag_library_toolbox.dart",
+      "git_blob_sha1": "d96cf4189865547240267f53c56cd0df55c96317",
+      "sha256": "5e7048a74a10e550ab76fd8f3abe6e3e8a35123b3b83b48f5e30b85e6a7bb062",
+      "bytes": 20686
+    },
+    {
+      "path": "lib/presentation/mcp/providers/mcp_server_notifier.dart",
+      "git_blob_sha1": "edd2e6e7448007d7d16b5e86bc8803dd8221c61c",
+      "sha256": "47fc50fea843d7e20db4444c5677116dd5d41fa9490df0648ff226e89d32d58b",
+      "bytes": 18059
+    },
+    {
+      "path": "lib/presentation/mcp/services/mcp_external_tool_registry_factory.dart",
+      "git_blob_sha1": "690e03cc7424c0e18cc6faedecfeb8393a35c8aa",
+      "sha256": "c88a8ab7e36d4bda2288679467b5ba99a0176db99bedfd61f0189107021769a7",
+      "bytes": 7435
+    },
+    {
+      "path": "lib/presentation/mcp/services/mcp_tool_call_pipeline.dart",
+      "git_blob_sha1": "a550914608f4c8b948a5ef4b31adc02b9deb77a5",
+      "sha256": "d64e2bfa32e36e5dc3ad1ab5d682386bfc0ee1353ce826fe2ac02ac2f6fa5550",
+      "bytes": 7133
+    },
+    {
+      "path": "LICENSE",
+      "git_blob_sha1": "3061a0879f8ba6419f233837018551edf59a0349",
+      "sha256": "bab19694a98d09c70d11f77a4c490a1aa9d53fb35e5af9952dd69fa9aca2d2e3",
+      "bytes": 1082
+    },
+    {
+      "path": "pubspec.lock",
+      "git_blob_sha1": "8742e81742674982843220adfdd033dc5c51435f",
+      "sha256": "8941e66e3dedae1fee2d6e49e97393d7b6175dc2329c0371d4634e50459e0e1e",
+      "bytes": 60895
+    },
+    {
+      "path": "pubspec.yaml",
+      "git_blob_sha1": "0769976b7abfd6a28c6f38691a43be10277912e6",
+      "sha256": "b9f0d6631ef64d4783890913ea4dfc6854628691c164a3c56b7ff6d5f9a1dc19",
+      "bytes": 5314
+    }
+  ]
+}
